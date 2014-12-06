@@ -2,9 +2,12 @@ package com.morgenmiddag.planes.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.morgenmiddag.planes.BgRenderer;
 
 /**
@@ -13,25 +16,53 @@ import com.morgenmiddag.planes.BgRenderer;
 public class GameScreen implements Screen{
 
     SpriteBatch batch = new SpriteBatch();
-
     BgRenderer bgRenderer = new BgRenderer();
+
+    private Viewport viewport;
+    private Camera camera;
+
+    public enum State {
+        RUN,
+        PAUSE,
+        RESUME,
+        STOP
+    }
+
+    private State state;
+
+    public GameScreen(){
+
+        state = State.RUN;
+
+        camera = new OrthographicCamera();
+        viewport = new ExtendViewport(16, 9, camera);
+    }
 
     @Override
     public void render(float delta) {
 
-        bgRenderer.Update();
+        switch (state){
+            case RUN:
+                bgRenderer.Update();
 
-        Gdx.graphics.getGL20().glClearColor( 1, 0, 0, 1 );
+                break;
+            case PAUSE:
+                System.out.println("PAUSE");
+                break;
+        }
+
+        Gdx.graphics.getGL20().glClearColor( 1, 0, 0, 0 );
         Gdx.graphics.getGL20().glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
 
         batch.begin();
         bgRenderer.Draw(batch);
         batch.end();
+
     }
 
     @Override
     public void resize(int width, int height) {
-
+        viewport.update(width, height);
     }
 
     @Override
@@ -46,7 +77,7 @@ public class GameScreen implements Screen{
 
     @Override
     public void pause() {
-
+        state = State.PAUSE;
     }
 
     @Override
