@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.morgenmiddag.planes.BgRenderer;
+import com.morgenmiddag.planes.HUD;
 
 /**
  * Created by yuridesnaijer on 05-12-14.
@@ -17,6 +18,7 @@ public class GameScreen implements Screen{
 
     SpriteBatch batch = new SpriteBatch();
     BgRenderer bgRenderer = new BgRenderer();
+    HUD hud = new HUD(this);
 
     private Viewport viewport;
     private Camera camera;
@@ -47,17 +49,17 @@ public class GameScreen implements Screen{
 
                 break;
             case PAUSE:
-                System.out.println("PAUSE");
+//                System.out.println("PAUSE");
                 break;
         }
 
-        Gdx.graphics.getGL20().glClearColor( 1, 0, 0, 0 );
+        Gdx.graphics.getGL20().glClearColor( 1, 1, 1, 0 );
         Gdx.graphics.getGL20().glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
 
         batch.begin();
-        bgRenderer.Draw(batch);
+        bgRenderer.draw(batch);
+        hud.draw();
         batch.end();
-
     }
 
     @Override
@@ -77,6 +79,7 @@ public class GameScreen implements Screen{
 
     @Override
     public void pause() {
+
         state = State.PAUSE;
     }
 
@@ -87,6 +90,15 @@ public class GameScreen implements Screen{
 
     @Override
     public void dispose() {
+
         batch.dispose();
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 }

@@ -32,7 +32,7 @@ public class BgRenderer {
         cloud = new Sprite(new Texture("cloud.png"));
     }
 
-    public void Draw(SpriteBatch batch){
+    public void draw(SpriteBatch batch){
 
         for (int i = 0; i < backgroundArray.size; i++){
             backgroundArray.get(i).draw(batch);
