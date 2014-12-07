@@ -65,12 +65,14 @@ public class HUD {
         // revert the checked state.
         button.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
-                System.out.println("Clicked! Is checked: " + button.isChecked());
-                button.setText("Good job!");
+
                 if(gameScreen.getState() == GameScreen.State.PAUSE){
                     gameScreen.setState(GameScreen.State.RUN);
+                    button.setText("pause");
+
                 } else {
                     gameScreen.setState(GameScreen.State.PAUSE);
+                    button.setText("resume!");
                 }
 
             }
